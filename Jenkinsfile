@@ -5,20 +5,20 @@ pipeline {
         stage('Git Checkout') {
             steps {
                 echo "Cloning branch 'hela' from fork Hela001..."
-                git branch: 'hela', 
-                    url: 'https://github.com/Hela001/Projet_Devops.git'
+                git branch: 'hela', url: 'https://github.com/Hela001/Projet_Devops.git'
             }
         }
 
-        stage('Build') {
+        stage('Build & Test') {
             steps {
-                echo 'Build stage running…'
+                echo 'Build and Test stage running…'
                 script {
                     try {
-                        sh 'mvn clean package -DskipTests'  // Compile sans lancer les tests
+                        // Compile et lance les tests
+                        sh 'mvn clean package'
                     } catch (err) {
-                        echo "Build failed!"
-                        error("Stopping pipeline due to build failure.")
+                        echo "Build or tests failed!"
+                        error("Stopping pipeline due to build/test failure.")
                     }
                 }
             }
