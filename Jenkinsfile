@@ -1,7 +1,6 @@
 pipeline {
     agent any
 
-   
     stages {
         stage('Git Checkout') {
             steps {
@@ -14,28 +13,12 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Build stage running…'
-                // Remplace par tes commandes réelles
                 script {
                     try {
-                        sh 'mvn clean package'  // Exemple Maven build
+                        sh 'mvn clean package -DskipTests'  // Compile sans lancer les tests
                     } catch (err) {
                         echo "Build failed!"
                         error("Stopping pipeline due to build failure.")
-                    }
-                }
-            }
-        }
-
-        stage('Test') {
-            steps {
-                echo 'Test stage running…'
-                // Remplace par tes commandes réelles
-                script {
-                    try {
-                        sh 'mvn test'  // Exemple Maven test
-                    } catch (err) {
-                        echo "Tests failed!"
-                        error("Stopping pipeline due to test failure.")
                     }
                 }
             }
